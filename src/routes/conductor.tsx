@@ -79,13 +79,50 @@ function DriverBadge({ name }: { name: string }) {
   );
 }
 
+type LogEntry = { label: string; time: string };
+
+function nowHHMM() {
+  return new Date().toLocaleTimeString("es-PE", { hour: "2-digit", minute: "2-digit", hour12: false });
+}
+
 function ActiveDriverView({
   trip, driverName, onFinish,
 }: { trip: ActiveTrip; driverName: string; onFinish: () => void }) {
-  const [status, setStatus] = useState("En ruta");
+  const [status, setStatus] = useState("Sin iniciar");
   const [sosOpen, setSosOpen] = useState(false);
+  const [startTime, setStartTime] = useState<string | null>(null);
+  const [stopTime, setStopTime] = useState<string | null>(null);
+  const [paradaCount, setParadaCount] = useState(0);
+  const [log, setLog] = useState<LogEntry[]>([]);
+
+  const pushLog = (label: string) => {
+    const time = nowHHMM();
+    setLog((l) => [{ label, time }, ...l]);
+    return time;
+  };
+
+  const handleStart = () => {
+    const t = pushLog("Inicio de ruta");
+    setStartTime(t);
+    setStopTime(null);
+    setStatus("En ruta");
+  };
+
+  const handleStop = () => {
+    const t = pushLog("Parada técnica");
+    setStopTime(t);
+    setStatus("En parada");
+  };
+
+  const handleParada = () => {
+    const next = paradaCount + 1;
+    setParadaCount(next);
+    pushLog(`Parada ${next}`);
+    setStatus(`Parada ${next}`);
+  };
 
   const handleFinish = () => {
+    pushLog("Fin de viaje");
     setStatus("Finalizado");
     onFinish();
   };
