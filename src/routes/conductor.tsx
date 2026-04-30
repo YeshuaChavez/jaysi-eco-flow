@@ -371,12 +371,15 @@ function Mini({ icon: Icon, k, v }: { icon: any; k: string; v: string }) {
   );
 }
 
-function BigBtn({ icon: Icon, label, onClick, active }: { icon: any; label: string; onClick: () => void; active?: boolean }) {
+function BigBtn({ icon: Icon, label, onClick, active, disabled }: { icon: any; label: string; onClick: () => void; active?: boolean; disabled?: boolean }) {
   return (
     <button
       onClick={onClick}
+      disabled={disabled}
       className={`flex aspect-square flex-col items-center justify-center gap-2 rounded-2xl border-2 p-4 text-center transition-all active:scale-95 ${
-        active
+        disabled
+          ? "cursor-not-allowed border-border/50 bg-muted/40 text-muted-foreground/60"
+          : active
           ? "border-primary bg-secondary text-primary shadow-[var(--shadow-soft)]"
           : "border-border bg-card text-foreground hover:border-primary/40"
       }`}
