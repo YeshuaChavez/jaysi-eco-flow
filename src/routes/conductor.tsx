@@ -142,8 +142,8 @@ function ActiveDriverView({
           </div>
 
           <div className="mt-5 grid grid-cols-3 gap-3 border-t border-primary-foreground/20 pt-4">
-            <Mini icon={Clock} k="ETA" v="11:45" />
-            <Mini icon={Gauge} k="Vel." v="82 km/h" />
+            <Mini icon={Clock} k="Inicio" v={startTime ?? "—"} />
+            <Mini icon={Pause} k="Últ. parada" v={stopTime ?? "—"} />
             <Mini icon={Flag} k="Estado" v={status} />
           </div>
         </div>
@@ -154,10 +154,24 @@ function ActiveDriverView({
           Reporte rápido
         </h2>
         <div className="mt-3 grid grid-cols-3 gap-3">
-          <BigBtn icon={Play} label="Inicio de ruta" onClick={() => setStatus("En ruta")} active={status === "En ruta"} />
-          <BigBtn icon={Pause} label="Parada técnica" onClick={() => setStatus("En parada")} active={status === "En parada"} />
-          <BigBtn icon={MapPin} label="Checkpoint" onClick={() => setStatus("Checkpoint")} active={status === "Checkpoint"} />
+          <BigBtn icon={Play} label={startTime ? `Inicio · ${startTime}` : "Inicio de ruta"} onClick={handleStart} active={status === "En ruta"} />
+          <BigBtn icon={Pause} label={stopTime ? `Parada · ${stopTime}` : "Parada técnica"} onClick={handleStop} active={status === "En parada"} />
+          <BigBtn icon={MapPin} label={paradaCount > 0 ? `Parada ${paradaCount}` : "Parada 1"} onClick={handleParada} active={status.startsWith("Parada ")} />
         </div>
+
+        {log.length > 0 && (
+          <div className="mt-6 rounded-2xl border border-border bg-card p-4 shadow-[var(--shadow-card)]">
+            <h3 className="mb-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">Bitácora del viaje</h3>
+            <ul className="space-y-2">
+              {log.map((e, i) => (
+                <li key={i} className="flex items-center justify-between border-b border-border/60 pb-2 last:border-0 last:pb-0">
+                  <span className="text-sm font-medium text-foreground">{e.label}</span>
+                  <span className="font-mono text-sm text-primary">{e.time}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
 
       {/* Botones flotantes: Finalizar + SOS */}
