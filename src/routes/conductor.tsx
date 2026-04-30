@@ -219,7 +219,7 @@ function RouteMap() {
           </span>
         </div>
       </div>
-      <div className="relative h-[260px] bg-[radial-gradient(ellipse_at_center,_var(--secondary)_0%,_var(--background)_75%)]">
+      <div className="relative h-[460px] sm:h-[560px] bg-[radial-gradient(ellipse_at_center,_var(--secondary)_0%,_var(--background)_75%)]">
         <svg viewBox="0 0 760 440" className="absolute inset-0 h-full w-full" preserveAspectRatio="xMidYMid meet">
           <path d="M 60 380 Q 250 420 420 220 T 700 90" stroke="oklch(0.7 0.02 150)" strokeWidth="3" fill="none" strokeDasharray="6 6" opacity="0.5" />
           <path d="M 60 380 Q 200 200 700 90" stroke="oklch(0.7 0.02 150)" strokeWidth="3" fill="none" strokeDasharray="6 6" opacity="0.5" />
